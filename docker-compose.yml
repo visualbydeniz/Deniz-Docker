@@ -1,0 +1,22 @@
+services:
+  server:
+    build:
+      context: .
+      args:
+        STUDENT_USER: ${STUDENT_USER:-student}
+        STUDENT_PASSWORD: ${STUDENT_PASSWORD:-changeme123}
+    container_name: ${STUDENT_USER:-student}-server
+    hostname: ${SERVER_HOSTNAME:-tuxbox}
+    environment:
+      SSH_PORT: ${SSH_PORT:-22}
+    ports:
+      - "127.0.0.1:${SSH_PORT:-22}:22"
+      - "127.0.0.1:${HTTP_PORT:-8080}:80"
+    volumes:
+      - home_data:/home
+      - var_www_data:/var/www
+    restart: unless-stopped
+
+volumes:
+  home_data:
+  var_www_data:
